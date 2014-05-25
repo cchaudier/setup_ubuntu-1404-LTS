@@ -57,7 +57,6 @@ install_lemp() {
   sudo rm /etc/nginx/sites-enabled/default
   run sudo cp /app/setup_ubuntu/nginx.conf /etc/nginx/sites-available/$server_name
   run sudo ln -fs /etc/nginx/sites-available/$server_name /etc/nginx/sites-enabled/$server_name
-  #run sudo cp /app/setup_ubuntu/info.php /usr/share/nginx/www/$server_name
   run sudo service php5-fpm restart
   trace "  -> PHP OK"
   run sudo nginx -t && sudo service nginx restart
@@ -76,7 +75,7 @@ install_mariadb() {
 install_phpmyadmin() {
   install_package phpmyadmin
   #run sudo htpasswd /etc/phpmyadmin/htpasswd.setup admin
-  run sudo ln -s /usr/share/phpmyadmin/ /var/www/phpmyadmin
+  run sudo ln -s /usr/share/phpmyadmin/ $web_rootpath/phpmyadmin
   trace "  -> phpmyadmin OK"
 }
 
