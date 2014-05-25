@@ -1,5 +1,5 @@
-vagrant_ubuntu-1204-LTS
+setup ubuntu-1404-LTS
 =======================
 
-vagrant_ubuntu-1204-LTS
-Shell for provisionning ubuntu serveur with latest docker version
+setup_ubuntu-1404-LTS
+Shell for provisionning ubuntu serveur with lemp
