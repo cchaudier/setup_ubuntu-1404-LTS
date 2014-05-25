@@ -34,34 +34,39 @@ change_name() {
 
 install_packages() {
   trace "Installation packages"
+  run sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+  sudo add-apt-repository 'deb http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.0/ubuntu trusty main'
   #run sudo 'echo "deb http://archive.ubuntu.com/ubuntu precise main universe" >> /etc/apt/sources.list'
   run sudo apt-get update 
   run sudo apt-get upgrade -y 
   run sudo apt-get dist-upgrade
-  install_package zsh curl git-core vim
+  install_package zsh curl git-core vim software-properties-common
   install_package language-pack-fr
   install_rcm
-  install_nginx
+  install_lemp
   trace " --> packages OK"
 }
 
 install_lemp() {
-  install_package nginx php5 php5-fpm php-apc
+  trace "Installation stack LEMP"
+  install_package nginx php5 php5-fpm php-apc php5-mysql
   run sudo mkdir -p /usr/share/nginx/www/$sever_name
   sudo rm /etc/nginx/sites-enabled/default
   run sudo cp /app/setup_ubuntu/nginx.conf /etc/nginx/sites-available/$server_name
   run sudo ln -fs /etc/nginx/sites-available/$server_name /etc/nginx/sites-enabled/$server_name
   run sudo cp /app/setup_ubuntu/info.php /usr/share/nginx/www/$server_name
   run sudo service php5-fpm restart
+  trace "  -> PHP OK"
   run sudo nginx -t && sudo service nginx restart
+  trace "  -> nginx OK"
   install_mariadb
   trace " --> lemp OK"
 }
 
 install_mariadb() {
-  run sudo apt-get install software-properties-common
-  run sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-  run sudo add-apt-repository 'deb http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.0/ubuntu trusty main'
+  install_package mariadb-server
+  run mysql -V 
+  trace "  -> mariadb OK"
 }
 
 install_package() {
@@ -72,8 +77,7 @@ install_rcm() {
     trace "Installation rcm"
     cd /tmp
     run wget http://thoughtbot.github.io/rcm/debs/rcm_1.2.0_all.deb
-    run sudo dpkg -i rcm_1.2.0_all.deb
-    rm -f rcm_1.2.0_all.deb
+    run sudo dpkg -i rcm_1.2.0_all.deb rm -f rcm_1.2.0_all.deb
     cd -
 }
 
