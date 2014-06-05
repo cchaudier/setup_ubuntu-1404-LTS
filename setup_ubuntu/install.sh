@@ -36,12 +36,17 @@ install_packages() {
   trace "Installation packages"
   run sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
   sudo add-apt-repository 'deb http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.0/ubuntu trusty main'
+  #froxlor
   run sudo apt-key adv --keyserver pool.sks-keyservers.net --recv-key FD88018B6F2D5390D051343FF6B4A8704F9E9BBC
   sudo add-apt-repository 'deb http://debian.froxlor.org wheezy main'
+  #Ajenti
+  wget http://repo.ajenti.org/debian/key -O- | apt-key add -
+  sudo add-apt-repository 'deb http://repo.ajenti.org/ng/debian main main ubuntu'
   #run sudo 'echo "deb http://archive.ubuntu.com/ubuntu precise main universe" >> /etc/apt/sources.list'
-  run sudo apt-get update 
+  run sudo dpkg --configure -a
+  run sudo apt-get update -y
   run sudo apt-get upgrade -y 
-  run sudo apt-get dist-upgrade
+  run sudo apt-get dist-upgrade -y
   install_package zsh curl git-core vim software-properties-common
   install_package language-pack-fr
   install_rcm
@@ -55,7 +60,7 @@ install_lemp() {
   install_package nginx php5 php5-fpm php-apc php5-mysql php5-curl
   run sudo mkdir -p $web_rootpath/$sever_name
   sudo rm /etc/nginx/sites-enabled/default
-  run sudo cp /app/setup_ubuntu/nginx.conf /etc/nginx/sites-available/$server_name
+  run sudo cp nginx.conf /etc/nginx/sites-available/$server_name
   run sudo ln -fs /etc/nginx/sites-available/$server_name /etc/nginx/sites-enabled/$server_name
   run sudo service php5-fpm restart
   trace "  -> PHP OK"
@@ -94,8 +99,10 @@ install_rcm() {
 }
 
 install_panel() {
-  install_package froxlor
-  trace "  -> Froxlor OK"
+  #install_package froxlor
+  install_package ajenti
+  run sudo service ajenti restart
+  trace "  -> Panel OK"
 }
 
 create_users() {
