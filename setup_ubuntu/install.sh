@@ -37,10 +37,10 @@ install_packages() {
   run sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
   sudo add-apt-repository 'deb http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.0/ubuntu trusty main'
   #froxlor
-  run sudo apt-key adv --keyserver pool.sks-keyservers.net --recv-key FD88018B6F2D5390D051343FF6B4A8704F9E9BBC
-  sudo add-apt-repository 'deb http://debian.froxlor.org wheezy main'
+  #run sudo apt-key adv --keyserver pool.sks-keyservers.net --recv-key FD88018B6F2D5390D051343FF6B4A8704F9E9BBC
+  #sudo add-apt-repository 'deb http://debian.froxlor.org wheezy main'
   #Ajenti
-  wget http://repo.ajenti.org/debian/key -O- | apt-key add -
+  wget http://repo.ajenti.org/debian/key -O- | sudo apt-key add -
   sudo add-apt-repository 'deb http://repo.ajenti.org/ng/debian main main ubuntu'
   #run sudo 'echo "deb http://archive.ubuntu.com/ubuntu precise main universe" >> /etc/apt/sources.list'
   run sudo dpkg --configure -a
@@ -57,7 +57,7 @@ install_packages() {
 
 install_lemp() {
   trace "Installation stack LEMP"
-  install_package nginx php5 php5-fpm php-apc php5-mysql php5-curl
+  install_package nginx php5 php5-fpm php-apc php5-mysql php5-curl php5-mcrypt bind9
   run sudo mkdir -p $web_rootpath/$sever_name
   sudo rm /etc/nginx/sites-enabled/default
   run sudo cp nginx.conf /etc/nginx/sites-available/$server_name
@@ -101,6 +101,7 @@ install_rcm() {
 install_panel() {
   #install_package froxlor
   install_package ajenti
+  install_package ajenti-v ajenti-v-nginx ajenti-v-mysql ajenti-v-php-fpm
   run sudo service ajenti restart
   trace "  -> Panel OK"
 }
