@@ -47,7 +47,7 @@ install_packages() {
   run sudo apt-get update -y
   run sudo apt-get upgrade -y 
   run sudo apt-get dist-upgrade -y
-  install_package zsh curl git-core vim software-properties-common
+  install_package zsh curl git-core vim software-properties-common samba
   install_package language-pack-fr
   install_rcm
   install_lemp
