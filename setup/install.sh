@@ -58,6 +58,7 @@ install_packages() {
 
 install_git() {
   trace "Install Git and co"
+  #TODO utiliser NVM
   install_package git-core git-flow nodejs npm nodejs-legacy
   run sudo -H npm install -g ungit
   trace "  -> Git and co OK"
@@ -136,7 +137,7 @@ install_ruby() {
   run git clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash
   run rbenv install $ruby_version
   run rbenv global $ruby_version
-  run gem install bundler foreman pg rails thin guard --no-rdoc --no-ri
+  run gem install bundler foreman pg thin guard --no-rdoc --no-ri
   run gem update
   trace "  -> RUBY OK"
 }
